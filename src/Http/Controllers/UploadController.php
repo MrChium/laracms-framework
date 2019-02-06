@@ -329,10 +329,10 @@ class UploadController extends Controller
             
             return $this->responseAjax(6,false, '上传失败');
         }
-        
+
         // 保存附件到文件系统
         $result = $uploader->saveUploadFile( $file_type, intval($request->object_id ?? 0), $file, $request->folder, intval($request->editor ?? 0) );
-           
+
         // 判断是否为多图多附件上传
         if( $result && request('uploader_type', '') == 'multiple' ){
             // 处理多文件

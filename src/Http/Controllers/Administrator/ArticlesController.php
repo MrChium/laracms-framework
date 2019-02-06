@@ -22,6 +22,7 @@ use Cmspackage\Laracms\Http\Requests\Administrator\ArticleRequest;
 use Cmspackage\Laracms\Handlers\CategoryHandler;
 use Cmspackage\Laracms\Models\Category;
 use Cmspackage\Laracms\Models\MultipleFile;
+use Cmspackage\Laracms\Services\ArticleService;
 
 /**
  * 后台文章管理控制器
@@ -116,13 +117,14 @@ class ArticlesController extends Controller
      *
      * @param ArticleRequest $request
      * @param Article $article
+     * @param ArticleService $articleService
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(ArticleRequest $request, Article $article)
+    public function store(ArticleRequest $request, Article $article, ArticleService $articleService)
     {
         $this->authorize('create', $article);
-        $article = Article::create($request->all());
+        $article = $articleService->create($request->all());
         $article->giveCategoryTo($request->category_id ?? []);
 
         return $this->redirect('articles.index')->with('success', '添加成功.');
@@ -150,13 +152,15 @@ class ArticlesController extends Controller
      *
      * @param ArticleRequest $request
      * @param Article $article
+     * @param ArticleService $articleService
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(ArticleRequest $request, Article $article)
+    public function update(ArticleRequest $request, Article $article, ArticleService $articleService)
     {
         $this->authorize('update', $article);
-        $article->update($request->all());
+        $articleService->update($article, $request->all());
+
         $article->syncCategory($request->category_id ?? []);
 
         return $this->redirect('articles.index')->with('success', '更新成功.');
