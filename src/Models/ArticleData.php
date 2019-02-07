@@ -39,6 +39,11 @@ class ArticleData extends Model
     protected $table = "articles_data";
 
     /**
+     * 主键
+     */
+    protected $primaryKey = "aid";
+
+    /**
      * 可以被集体附值的表的字段
      */
     protected $fillable = [

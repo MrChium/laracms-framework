@@ -48,7 +48,7 @@ class ArticleService
         return \DB::transaction(function () use ($article, $data) {
             $article->update($data);
             if ( ! empty($article['id']) ) {
-                ArticleData::where("aid", $article['id'])->update(['content' => $data['content']]);
+                ArticleData::updateOrCreate(["aid" => $article['id']], ['content' => $data['content']]);
             }
             return $article;
         });

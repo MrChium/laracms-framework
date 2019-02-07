@@ -15,6 +15,7 @@
 
 namespace Cmspackage\Laracms\Http\Controllers\Administrator;
 
+use Cmspackage\Laracms\Services\ArticleService;
 use DB;
 use Cmspackage\Laracms\Models\Article;
 use Illuminate\Http\Request;
@@ -22,7 +23,6 @@ use Cmspackage\Laracms\Http\Requests\Administrator\ArticleRequest;
 use Cmspackage\Laracms\Handlers\CategoryHandler;
 use Cmspackage\Laracms\Models\Category;
 use Cmspackage\Laracms\Models\MultipleFile;
-use Cmspackage\Laracms\Services\ArticleService;
 
 /**
  * 后台文章管理控制器
@@ -152,10 +152,10 @@ class ArticlesController extends Controller
      *
      * @param ArticleRequest $request
      * @param Article $article
-     * @param ArticleService $articleService
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
+
     public function update(ArticleRequest $request, Article $article, ArticleService $articleService)
     {
         $this->authorize('update', $article);

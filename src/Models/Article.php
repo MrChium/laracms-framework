@@ -48,7 +48,7 @@ class Article extends Model
     public $asYouType = true;
 
     protected $fillable = [
-         'id','object_id', 'alias','title', 'subtitle', 'keywords', 'description', 'author', 'source', 'order', 'content', 'attribute', 'thumb', 'type', 'is_link','link', 'template', 'status', 'views', 'reply_count', 'weight', 'css', 'js', 'top', 'created_op', 'updated_op',
+         'id','object_id', 'alias','title', 'subtitle', 'keywords', 'description', 'author', 'source', 'order', 'attribute', 'thumb', 'type', 'is_link','link', 'template', 'status', 'views', 'reply_count', 'weight', 'css', 'js', 'top', 'created_op', 'updated_op',
     ];
     
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
@@ -89,6 +89,19 @@ class Article extends Model
 
     public function updated_user(){
         return $this->belongsTo('Cmspackage\Laracms\Models\User', 'updated_op');
+    }
+
+    /**
+     * 查询时处理content字段
+     *
+     * @author Eric
+     * @param $value
+     * @return string
+     */
+    public function getContentAttribute($value)
+    {
+        $result = ArticleData::where("aid", $this->id)->first(['content']);
+        return $result ? $result->content : '';
     }
 
     public function replies()
