@@ -32,10 +32,9 @@ class ArticleObserver
     public function creating(Article $article)
     {
         $article->status = '1';
-        $article->order = 9999;
+        $article->order = 99;
         $article->created_op || $article->created_op = Auth::id();
         $article->updated_op || $article->updated_op = Auth::id();
-
     }
 
     public function updating(Article $article)
@@ -69,6 +68,6 @@ class ArticleObserver
     public function deleted(Article $article)
     {
         \DB::table('replies')->where('article_id', $article->id)->delete();
-
     }
+
 }
