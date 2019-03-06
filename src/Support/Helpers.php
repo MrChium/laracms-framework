@@ -104,7 +104,8 @@ if( !function_exists('get_active_template') ){
             return $templates;
         }
 
-        $view_path = config('view.paths')[0] . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'frontend'. DIRECTORY_SEPARATOR . config('theme.desktop') . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR;
+        $view_path = config('view.paths')[0] . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'frontend'.
+            (config('theme.desktop') ? DIRECTORY_SEPARATOR . config('theme.desktop') : '') . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR;
         $list =  glob($view_path.$prefix."-*.blade.php");
         $templates = [
             '' => '默认',

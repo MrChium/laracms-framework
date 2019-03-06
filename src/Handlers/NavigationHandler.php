@@ -137,7 +137,8 @@ class NavigationHandler
      * @param boolean $showOneLevel 是否显示一级导航，默认不显示
      * @return array
      */
-    public function getCurrentBrothersAndChildNavigation($category = 'desktop', $showOneLevel = false){
+    public function getCurrentBrothersAndChildNavigation($category = 'desktop', $showOneLevel = false)
+    {
         $navigation = $this->getNavigationFind(request('navigation',0));
         $parent = $navigation->parent ?? 0;
         return $parent == 0 && $showOneLevel == false ? [] : $this->withRecursion($this->getNavigations($category), $parent ?? 0);
@@ -149,7 +150,8 @@ class NavigationHandler
      * @param string $category
      * @return array|null
      */
-    public function getCurrentChildNavigation($category = 'desktop'){
+    public function getCurrentChildNavigation($category = 'desktop')
+    {
         return ($navigation = request('navigation',0)) > 0 ? $this->withRecursion($this->getNavigations($category), $navigation) : [];
     }
 
@@ -158,7 +160,8 @@ class NavigationHandler
      *
      * @return array
      */
-    public function breadcrumb(){
+    public function breadcrumb()
+    {
         $breadcrumb = [];
         $navigation = $this->getNavigationFind(request('navigation',0));
         if(!$navigation){  return $breadcrumb; } // 默认首页
@@ -259,7 +262,7 @@ class NavigationHandler
                 ];
 
                 if(is_json($params->params) && !empty($routeParams = json_decode($params->params, true))){
-                    $args[1] = array_merge($args[1], $routeParams);
+                    $args[1] = isset($routeParams[0]) ? array_merge($args[1], $routeParams) : [];
                 }
 
                 $url = route(...$args);

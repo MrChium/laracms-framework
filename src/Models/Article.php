@@ -48,7 +48,7 @@ class Article extends Model
     public $asYouType = true;
 
     protected $fillable = [
-         'id','object_id', 'alias','title', 'subtitle', 'keywords', 'description', 'author', 'source', 'order', 'attribute', 'thumb', 'type', 'is_link','link', 'template', 'status', 'views', 'reply_count', 'weight', 'css', 'js', 'top', 'created_op', 'updated_op',
+         'id','object_id', 'alias','title', 'subtitle', 'keywords', 'description', 'author', 'source', 'order', 'attribute', 'thumb', 'type', 'is_link','link', 'template', 'status', 'views', 'reply_count', 'weight', 'css', 'js', 'top', 'created_op', 'updated_op', 'created_at', 'updated_at'
     ];
     
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
@@ -212,11 +212,16 @@ class Article extends Model
      * @param int $category_id
      * @return string
      */
-    public function getLink($navigation_id = 0, $category_id = 0){
+    public function getLink($navigation_id = 0, $category_id = 0)
+    {
         if($this->is_link == 1 && !empty($this->link)){
             return $this->link;
         }
-        return route('article.show',[$navigation_id, $category_id, $this->id]);
+        if( config('sys.enable_cate_route') && !empty($cate_route = $this->categorys()->first()->cate_route) ){
+            return route('article.show.'.$cate_route, [$this->id]);
+        }else{
+            return route('article.show',[$navigation_id, $category_id, $this->id]);
+        }
     }
 
     /**
@@ -267,7 +272,8 @@ class Article extends Model
      * @param $id
      * @return mixed
      */
-    public static function show( $id ){
+    public static function show( $id )
+    {
         $id = intval($id);
 
         $key = 'article_active_cache_'.$id;

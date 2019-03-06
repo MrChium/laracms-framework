@@ -16,6 +16,7 @@
 namespace Cmspackage\Laracms\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Cmspackage\Laracms\Models\Category;
 use Cmspackage\Laracms\Models\Article;
 
 /**
@@ -29,11 +30,19 @@ class WelcomeController extends Controller
     /**
      * 前台首页
      *
+     * @param int $navigation
+     * @param Category $articleCategory
+     * @param Article $article
      * @return mixed
      */
-    public function index()
+    public function index (Article $article)
     {
-        return frontend_view('welcome');
+        return redirect('kuaixun');
+        /*if( ! ($category = Category::where("cate_route", 'kuaixun')->first()) ){
+            abort(404);
+        }
+        $articles = $category->articles()->active()->ordered()->recent()->paginate(10);
+        return frontend_view('article.list', compact('category','articles'));*/
     }
 
     /**

@@ -48,7 +48,9 @@ class ArticleData extends Model
      */
     protected $fillable = [
         'aid',
-        'content'
+        'content',
+        'created_at',
+        'updated_at'
     ];
 
     /**

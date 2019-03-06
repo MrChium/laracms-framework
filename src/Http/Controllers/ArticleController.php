@@ -40,7 +40,6 @@ class ArticleController extends Controller
     public function category($navigation = 0, Category $articleCategory, Article $article)
     {
         $category = $articleCategory;
-        $articles = [];
         $articles = $articleCategory->articles()->ordered()->recent()->paginate(10);
 
         return frontend_view('category.'.$articleCategory->getTemplate('index'), compact('navigation','category','articles'));
@@ -57,8 +56,11 @@ class ArticleController extends Controller
     public function index($navigation = 0, Category $articleCategory, Article $article)
     {
         $category = $articleCategory;
-        $articles = $category->articles()->active()->ordered()->recent()->paginate(10);
-
+        if($category->template == 'kuaixun'){
+            $articles = $category->articles()->active()->ordered()->recent()->paginate(30);
+        }else{
+            $articles = $category->articles()->active()->ordered()->recent()->paginate(10);
+        }
         return frontend_view('article.'.$articleCategory->getTemplate('list'), compact('navigation','category','articles'));
     }
 

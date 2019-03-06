@@ -27,10 +27,17 @@ class ArticleService
         return \DB::transaction(function () use ($data) {
             $resData = Article::create($data);
             if ( ! empty($resData['id']) ) {
-                ArticleData::create([
+                $insertData = [
                     'aid' => $resData['id'],
                     'content' => $data['content'],
-                ]);
+                ];
+                if( ! empty($data['created_at']) ){
+                    $insertData['created_at'] = $data['created_at'];
+                }
+                if( ! empty($data['updated_at']) ){
+                    $insertData['updated_at'] = $data['updated_at'];
+                }
+                ArticleData::create($insertData);
             }
             return $resData;
         });

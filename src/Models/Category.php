@@ -29,7 +29,7 @@ class Category extends Model
     use SoftDeletes;
     
     protected $table = 'categorys';
-    protected $fillable = ['id','name', 'keywords', 'description', 'parent', 'order', 'path', 'type', 'link', 'template', ];
+    protected $fillable = ['id','name', 'keywords', 'description', 'cate_route', 'parent', 'order', 'path', 'type', 'link', 'template', ];
     
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
     
